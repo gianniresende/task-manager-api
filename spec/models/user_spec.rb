@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  before { @user = FactoryBot.build(:user)}
+  before { @user = FactoryBot.build(:user) }
 
-  it { expect(@user).to respond_to(:email)}
-  #pending "add some examples to (or delete) #{__FILE__}"
+  it { expect(@user).to respond_to(:email) }
+  # pending "add some examples to (or delete) #{__FILE__}"
 end
