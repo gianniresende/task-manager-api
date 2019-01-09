@@ -3,10 +3,10 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  #before { @user = FactoryBot.build(:user) }
+  # before { @user = FactoryBot.build(:user) }
   let(:user) { build(:user) }
 
-  #it { expect(@user).to respond_to(:email) }
+  # it { expect(@user).to respond_to(:email) }
   # pending "add some examples to (or delete) #{__FILE__}"
 
   it { is_expected.to validate_presence_of(:email) }
@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
       user.save!
 
       allow(Devise).to receive(:friendly_token).and_return('abc123xyzTOKEN')
-      #allow(Devise).to receive(:friendly_token).and_return('abc123xyzTOKEN')
+      # allow(Devise).to receive(:friendly_token).and_return('abc123xyzTOKEN')
 
       expect(user.info).to eq("#{user.email} - #{user.created_at} - Token: abc123xyzTOKEN")
     end
@@ -42,5 +42,4 @@ RSpec.describe User, type: :model do
       expect(user.auth_token).not_to eq(existing_user.auth_token)
     end
   end
-
 end

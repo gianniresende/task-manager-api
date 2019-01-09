@@ -10,7 +10,7 @@ RSpec.describe 'Users API', type: :request do
       'Accept' => 'application/vnd.taskmanager.v1',
       'Content-Type' => Mime[:json].to_s
     }
-  end  
+  end
 
   before { host! 'api.taskmanager.test' }
 
@@ -40,11 +40,11 @@ RSpec.describe 'Users API', type: :request do
 
   describe 'POST /users' do
     before do
-      post '/users', params: { user: user_params}.to_json, headers: headers
+      post '/users', params: { user: user_params }.to_json, headers: headers
     end
 
     context 'when the request params are valid' do
-      let(:user_params) { FactoryBot.attributes_for(:user)}
+      let(:user_params) { FactoryBot.attributes_for(:user) }
 
       it 'return status code 201' do
         expect(response).to have_http_status(201)
@@ -57,19 +57,17 @@ RSpec.describe 'Users API', type: :request do
     end
 
     context 'when the request params are invalid' do
-
-      let(:user_params) { FactoryBot.attributes_for(:user, email: 'invalid_email@')}
+      let(:user_params) { FactoryBot.attributes_for(:user, email: 'invalid_email@') }
 
       it 'return status code 422' do
         expect(response).to have_http_status(422)
       end
 
       it 'returns the json data for the erros' do
-          user_response = JSON.parse(response.body)
-        expect(user_response).to have_key('errors') 
-      end      
+        user_response = JSON.parse(response.body)
+        expect(user_response).to have_key('errors')
+      end
     end
-
   end
 
   describe 'PUT /users/:id' do
@@ -85,7 +83,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns the data for the updated user' do
-        user_response  = JSON.parse(response.body, symbolize_names: true)
+        user_response = JSON.parse(response.body, symbolize_names: true)
         expect(user_response[:email]).to eq(user_params[:email])
       end
     end
@@ -99,8 +97,8 @@ RSpec.describe 'Users API', type: :request do
 
       it 'returns the json data for the erros' do
         user_response = JSON.parse(response.body)
-        expect(user_response).to have_key('errors') 
-      end     
+        expect(user_response).to have_key('errors')
+      end
     end
   end
 
@@ -110,13 +108,11 @@ RSpec.describe 'Users API', type: :request do
     end
 
     it 'returns status code 204' do
-      expect(response).to have_http_status(204)  
+      expect(response).to have_http_status(204)
     end
 
     it 'removes the user from database' do
-      expect( User.find_by(id: user.id) ).to be_nil 
+      expect(User.find_by(id: user.id)).to be_nil
     end
-
   end
-
 end
