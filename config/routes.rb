@@ -10,14 +10,13 @@ Rails.application.routes.draw do
     namespace :v1, path: '/', constraints: ApiVersionConstraint.new(version: 1) do
       resources :users, only: %i[show create update destroy]
       resources :sessions, only: %i[create destroy]
-      resources :tasks, only: [:index, :show, :create, :update, :destroy]
+      resources :tasks, only: %i[index show create update destroy]
     end
 
     namespace :v2, path: '/', constraints: ApiVersionConstraint.new(version: 2, default: true) do
       resources :users, only: %i[show create update destroy]
       resources :sessions, only: %i[create destroy]
-      resources :tasks, only: [:index, :show, :create, :update, :destroy]
+      resources :tasks, only: %i[index show create update destroy]
     end
-
   end
 end

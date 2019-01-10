@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 class Api::V2::UsersController < ApplicationController
-  respond_to :json
+  before_action :authenticate_with_token!, only: %i[update destroy]
 
   def show
-    @user = User.find(params[:id])
-    respond_with @user
-  rescue StandardError
-    head 404
+    begin
+      user = User.find(params[:id])
+      render json: user, status: 200
+    rescue StandardError
+      head 404
+    end
   end
 
   def create

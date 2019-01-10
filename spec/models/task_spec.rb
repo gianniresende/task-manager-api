@@ -6,7 +6,7 @@ RSpec.describe Task, type: :model do
   let(:task) { build(:task) }
 
   context 'When is new' do
-    #it { expect(task).not_to be_done }
+    # it { expect(task).not_to be_done }
   end
 
   it { is_expected.to belong_to(:user) }

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Task API' do
@@ -21,7 +23,6 @@ RSpec.describe 'Task API' do
     it 'returns 5 tasks from database' do
       expect(json_body[:tasks].count).to eq(5)
     end
-
   end
 
   describe 'GET /tasks/:id' do
@@ -40,18 +41,18 @@ RSpec.describe 'Task API' do
 
   describe 'POST /tasks' do
     before do
-      post '/tasks', params: { task: task_params }.to_json, headers: headers 
+      post '/tasks', params: { task: task_params }.to_json, headers: headers
     end
 
     context 'when the params are valid' do
       let(:task_params) { attributes_for(:task) }
-      
+
       it 'returns status code 201' do
         expect(response).to have_http_status(201)
       end
 
       it 'saves the task in the database' do
-        expect( Task.find_by(title: task_params[:title]) ).not_to be_nil
+        expect(Task.find_by(title: task_params[:title])).not_to be_nil
       end
 
       it 'returns the json for created task' do
@@ -59,7 +60,7 @@ RSpec.describe 'Task API' do
       end
 
       it 'assigns the created task to the current user' do
-        expect(json_body[:user_id]).to eq(user.id) 
+        expect(json_body[:user_id]).to eq(user.id)
       end
     end
 
@@ -71,7 +72,7 @@ RSpec.describe 'Task API' do
       end
 
       it 'does not save the task in the database' do
-        expect( Task.find_by(title: task_params[:title]) ).to be_nil
+        expect(Task.find_by(title: task_params[:title])).to be_nil
       end
 
       it 'returns the json error for title' do
@@ -98,13 +99,12 @@ RSpec.describe 'Task API' do
       end
 
       it 'updates the task in the database' do
-        expect( Task.find_by(title: task_params[:title]) ).not_to be_nil
+        expect(Task.find_by(title: task_params[:title])).not_to be_nil
       end
-
     end
 
     context 'when the params are invalid' do
-      let(:task_params){ { title: ' '} }
+      let(:task_params) { { title: ' ' } }
 
       it 'returns status code 422' do
         expect(response).to have_http_status(422)
@@ -115,11 +115,11 @@ RSpec.describe 'Task API' do
       end
 
       it 'does not update the task in the database' do
-        expect( Task.find_by(title: task_params[:title]) ).to be_nil
+        expect(Task.find_by(title: task_params[:title])).to be_nil
       end
     end
   end
-  
+
   describe 'DELETE /tasks/:id' do
     let!(:task) { create(:task, user_id: user.id) }
 

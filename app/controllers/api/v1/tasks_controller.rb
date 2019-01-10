@@ -1,5 +1,6 @@
-class Api::V1::TasksController < ApplicationController
+# frozen_string_literal: true
 
+class Api::V1::TasksController < ApplicationController
   before_action :authenticate_with_token!
 
   def index
@@ -14,10 +15,10 @@ class Api::V1::TasksController < ApplicationController
 
   def create
     task = current_user.tasks.build(task_params)
-    if task.save      
-    render json: task, status: 201     
+    if task.save
+      render json: task, status: 201
     else
-     render json: { errors: task.errors }, status: 422
+      render json: { errors: task.errors }, status: 422
     end
   end
 
@@ -25,7 +26,7 @@ class Api::V1::TasksController < ApplicationController
     task = current_user.tasks.find(params[:id])
 
     if task.update_attributes(task_params)
-      render json: task, status: 200        
+      render json: task, status: 200
     else
       render json: { errors: task.errors }, status: 422
     end
@@ -42,6 +43,4 @@ class Api::V1::TasksController < ApplicationController
   def task_params
     params.require(:task).permit(:title, :description, :deadline, :done)
   end
-
-  
 end

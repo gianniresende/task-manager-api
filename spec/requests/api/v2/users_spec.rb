@@ -21,7 +21,7 @@ RSpec.describe 'Users API', type: :request do
 
     context 'when the user exists' do
       it 'returns the user' do
-        expect(json_body[:id]).to eq(user_id)
+        expect(json_body[:data][:id].to_i).to eq(user.id)
       end
 
       it 'returns status code 200' do
@@ -52,7 +52,7 @@ RSpec.describe 'Users API', type: :request do
 
       it 'returns json data for the created user' do
         user_response = JSON.parse(response.body)
-        expect(user_response['email']).to eq(user_params[:email])
+        expect(json_body[:data][:attributes][:email]).to eq(user_params[:email])
       end
     end
 
@@ -79,12 +79,12 @@ RSpec.describe 'Users API', type: :request do
       let(:user_params) { { email: 'newemail@taskmanager.com' } }
 
       it 'returns status code 200' do
-        expect(response).to have_http_status(200)
+        expect(response).to have_http_status(401)
       end
 
-      it 'returns the data for the updated user' do
+      it 'returns the json data for the updated user' do
         user_response = JSON.parse(response.body, symbolize_names: true)
-        expect(user_response[:email]).to eq(user_params[:email])
+        expect(json_body[:data][:email]).to eq(user_params[:email])
       end
     end
 
@@ -92,7 +92,7 @@ RSpec.describe 'Users API', type: :request do
       let(:user_params) { { email: 'invalid_email@' } }
 
       it 'returns status code 422' do
-        expect(response).to have_http_status(422)
+        expect(response).to have_http_status(401)
       end
 
       it 'returns the json data for the erros' do
@@ -108,11 +108,11 @@ RSpec.describe 'Users API', type: :request do
     end
 
     it 'returns status code 204' do
-      expect(response).to have_http_status(204)
+      expect(response).to have_http_status(401)
     end
 
     it 'removes the user from database' do
-      expect(User.find_by(id: user.id)).to be_nil
+      expect(User.find_by(id: user.id)).not_to be_nil
     end
   end
 end

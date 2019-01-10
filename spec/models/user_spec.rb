@@ -6,7 +6,7 @@ RSpec.describe User, type: :model do
   # before { @user = FactoryBot.build(:user) }
   let(:user) { build(:user) }
 
-   it { is_expected.to have_many(:tasks).dependent(:destroy)  }
+  it { is_expected.to have_many(:tasks).dependent(:destroy) }
 
   # it { expect(@user).to respond_to(:email) }
   # pending "add some examples to (or delete) #{__FILE__}"
