@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V2::UsersController < ApplicationController
+class Api::V2::UsersController < Api::V2::BaseController
   before_action :authenticate_with_token!, only: %i[update destroy]
 
   def show

@@ -51,7 +51,7 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns json data for the created user' do
-        user_response = JSON.parse(response.body)
+        #user_response = JSON.parse(response.body)
         expect(json_body[:data][:attributes][:email]).to eq(user_params[:email])
       end
     end
@@ -83,9 +83,13 @@ RSpec.describe 'Users API', type: :request do
       end
 
       it 'returns the json data for the updated user' do
-        user_response = JSON.parse(response.body, symbolize_names: true)
         expect(json_body[:data][:email]).to eq(user_params[:email])
       end
+
+      #it 'returns the json data for the updated user' do
+        #user_response = JSON.parse(response.body, symbolize_names: true)
+        #expect(json_body[:attributes][:email]).to eq(user_params[:email])
+      #end
     end
 
     context 'when the request params are invalid' do
